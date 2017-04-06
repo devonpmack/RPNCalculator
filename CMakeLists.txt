@@ -9,7 +9,7 @@ INCLUDE_DIRECTORIES(C:/allegro/include)
 LINK_DIRECTORIES(C:/allegro/lib)
 
 #########From above###############
-set(SOURCE_FILES main.cpp Stack.cpp Stack.h Button.cpp Button.h Numpad.cpp Numpad.h)
+set(SOURCE_FILES main.cpp Stack.cpp Stack.h Button.cpp Button.h Operatorstack.cpp Operatorstack.h)
 add_executable(Rpn ${SOURCE_FILES})
 #################################
 
