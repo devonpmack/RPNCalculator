@@ -22,6 +22,7 @@ Button::Button(int x1_in, int y1_in, int width, int height, ALLEGRO_COLOR color_
     margin = 2;
     event = event_in;
     font = al_load_font("font.ttf",30,0);
+
     if (!font) {
         throw invalid_argument("Error loading font!");
     }
@@ -47,4 +48,8 @@ Button::b_event Button::getEvent() {
 
 void Button::setText(string text_in) {
     text = text_in;
+}
+
+string Button::getText() {
+    return text;
 }

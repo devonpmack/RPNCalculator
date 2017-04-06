@@ -9,7 +9,7 @@
 #include "Button.h"
 
 class Stack {
-    private:
+    protected:
         int top;
         float data[80];
         float EPSILON;
@@ -17,7 +17,6 @@ class Stack {
         Stack();
         void push(float n);
         float pop();
-        string operation(Button::b_event operation, string input);
         void print();
         ~Stack() { cout << "Unloading stack." << endl;};
 };

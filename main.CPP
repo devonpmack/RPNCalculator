@@ -16,13 +16,15 @@
 
 /* Need if not a project */
  #include "Stack.cpp"
- #include "Numpad.cpp"
+ #include "Display.cpp"
  #include "Button.cpp"
+ #include "Operatorstack.cpp"
 /*                       */
 
 #include "Button.h"
 #include "Stack.h"
-#include "Numpad.h"
+#include "Display.h"
+#include "Operatorstack.h"
 
 #include <iostream>
 #include <stdio.h>
@@ -56,24 +58,24 @@ using namespace std;
 int main(int argc, char **argv) {
     ALLEGRO_DISPLAY *display = NULL;
 
-    Stack stack;
+    Operatorstack stack;
 
     if (!initializeAllegro(display)) {
         return false;
     }
 
     // --- Initialize all the buttons/displays ---
-    // Numpad
-    Numpad *numberPad[10];
+    // Display
+    Display *numberPad[10];
     int counter = 0;
     int locationy = size*5;
 
     //Initialize the numpad buttons
-    numberPad[0] = new Numpad(margin,size*4+margin+locationy,size-margin,size-margin,GREEN, 0);
+    numberPad[0] = new Display(margin,size*4+margin+locationy,size-margin,size-margin,GREEN, 0);
     counter++;
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-            numberPad[counter] = new Numpad(j*size+margin,i*size+size+locationy+margin,
+            numberPad[counter] = new Display(j*size+margin,i*size+size+locationy+margin,
                                             size-margin,size-margin,GREEN, counter);
             counter++;
         }
@@ -129,12 +131,12 @@ int main(int argc, char **argv) {
                              Button::TAN);
 	
     // Initialize the displays
-    Numpad *calc_display[4];
+    Display *calc_display[4];
 
-    calc_display[0] = new Numpad(margin*3, margin*2, size*5-margin*6, size-margin*3, WHITE, 0);
-    calc_display[1] = new Numpad(margin*3, margin*2+size, size*5-margin*6, size-margin*3, WHITE, 0);
-    calc_display[2] = new Numpad(margin*3, margin*2+size*2, size*5-margin*6, size-margin*3, WHITE, 0);
-    calc_display[3] = new Numpad(margin*3, margin*2+size*3, size*5-margin*6, size-margin*3, WHITE, 0);
+    calc_display[0] = new Display(margin*3, margin*2, size*5-margin*6, size-margin*3, WHITE, 0);
+    calc_display[1] = new Display(margin*3, margin*2+size, size*5-margin*6, size-margin*3, WHITE, 0);
+    calc_display[2] = new Display(margin*3, margin*2+size*2, size*5-margin*6, size-margin*3, WHITE, 0);
+    calc_display[3] = new Display(margin*3, margin*2+size*3, size*5-margin*6, size-margin*3, WHITE, 0);
 
     // --- Draw the calculator ---
     // Draw the buttons

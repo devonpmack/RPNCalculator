@@ -25,6 +25,7 @@ class Button {
         b_event getEvent();
         void setText(string text_in);
         ~Button() { cout << "Unloading button." << endl;};
+        string getText();
     protected:
         int x1;
         int w;

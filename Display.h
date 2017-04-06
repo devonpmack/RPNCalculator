@@ -7,12 +7,12 @@
 #include "Button.h"
 #include "Stack.h"
 
-class Numpad : public Button {
+class Display : public Button {
     private:
         float number;
 
     public:
-        Numpad(int x1_in, int y1_in, int width, int height, ALLEGRO_COLOR color_in, float num);
+        Display(int x1_in, int y1_in, int width, int height, ALLEGRO_COLOR color_in, float num);
         float getNum();
         void setNumber(float num);
 };
