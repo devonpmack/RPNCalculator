@@ -1,3 +1,0 @@
-C:/Users/Devon Mack/CLionProjects/Rpn/cmake-build-debug/CMakeFiles/Rpn.dir
-C:/Users/Devon Mack/CLionProjects/Rpn/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Devon Mack/CLionProjects/Rpn/cmake-build-debug/CMakeFiles/rebuild_cache.dir
