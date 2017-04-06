@@ -5,6 +5,7 @@
 #define RPN_BUTTON_H
 
 #include <string>
+#include <iostream>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
@@ -15,7 +16,7 @@ class Button {
     public:
         enum b_event {
             ENTER,PLUSMINUS,DECIMAL,ADD,SUBTRACT,MULTIPLY,DIVIDE,RECIPROCAL,
-            SQRT,CLEAR,ALLCLEAR,SIN,COS,TAN,EXPONENT,DELETE,POP,DEL
+            SQRT,CLEAR,ALLCLEAR,SIN,COS,TAN,EXPONENT,POP,DEL
         };
         Button();
         Button(int x1_in, int y1_in, int width, int height, ALLEGRO_COLOR color_in, string text_in, b_event event_in);
@@ -23,7 +24,7 @@ class Button {
         bool checkMouse(int x, int y);
         b_event getEvent();
         void setText(string text_in);
-        //~Stack();
+        ~Button() { cout << "Unloading button." << endl;};
     protected:
         int x1;
         int w;

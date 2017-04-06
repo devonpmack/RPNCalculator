@@ -6,7 +6,7 @@
 *       | Date created      : 4/4/2017
 *
 * Purpose           : RPN Calculator with Allegro 5
-*                     github.com/
+*                     https://github.com/devonpmack/RPNCalculator
 *
 * Known Issues      : 1. Errors are all shown in console
 *                     2. Display the pop() warning a lot

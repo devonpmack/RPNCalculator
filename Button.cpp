@@ -9,7 +9,7 @@
 using namespace std;
 
 Button::Button() {
-    //throw invalid_argument("You can't initialize a button with no arguments!");
+    // for inheritance
 }
 
 Button::Button(int x1_in, int y1_in, int width, int height, ALLEGRO_COLOR color_in, string text_in, b_event event_in) {
@@ -21,8 +21,7 @@ Button::Button(int x1_in, int y1_in, int width, int height, ALLEGRO_COLOR color_
     color = color_in;
     margin = 2;
     event = event_in;
-    //DEVCPPfont = al_load_font("font.ttf",30,0);
-    font = al_load_font("C:\\Users\\Devon Mack\\CLionProjects\\Rpn\\font.ttf", 30, 0);
+    font = al_load_font("font.ttf",30,0);
     if (!font) {
         throw invalid_argument("Error loading font!");
     }

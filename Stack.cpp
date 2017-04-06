@@ -43,7 +43,7 @@ void Stack::push(float n) {
 string Stack::operation(Button::b_event operation, string input) {
     float a;
     float b;
-    bool ontop = false;
+    bool pushResult = false;
     float toPush = 0;
     cout << "EVENT: " << operation << endl;
     switch(operation) {
@@ -52,47 +52,48 @@ string Stack::operation(Button::b_event operation, string input) {
             b = pop();
             toPush = a+b;
 
-            ontop = true;
+            pushResult = true;
             break;
         case Button::SUBTRACT:
             a = atof(input.c_str());
             b = pop();
             toPush = b-a;
-            ontop = true;
+            pushResult = true;
             break;
         case Button::MULTIPLY:
             a = atof(input.c_str());
             b = pop();
             toPush = a*b;
-            ontop = true;
+            pushResult = true;
             break;
         case Button::DIVIDE:
             a = atof(input.c_str());
             b = pop();
+            // If the divisor is 0
             if (abs(a) < EPSILON) {
             	cerr << "[ERROR] Divide by zero!" << endl;
             } else {
                 toPush = b/a;
-                ontop = true;
+                pushResult = true;
             }
             break;
         case Button::EXPONENT:
             a = atof(input.c_str());
             b = pop();
             toPush = pow(a,b);
-            ontop = true;
+            pushResult = true;
             break;
         case Button::ENTER:
             push(atof(input.c_str()));
             input = "0";
-            ontop = true;
+            pushResult = true;
             break;
         case Button::CLEAR:
             input = "0";
             break;
         case Button::POP:
             toPush = pop();
-            ontop = true;
+            pushResult = true;
             break;
         case Button::ALLCLEAR:
             input = "0";
@@ -113,16 +114,16 @@ string Stack::operation(Button::b_event operation, string input) {
         		cerr << "[ERROR] Can't square root a negative number!" << endl;
 			} else {
 				toPush = sqrt(a);
-        		ontop = true;
+        		pushResult = true;
 			}
         	break;
         case Button::SIN:
         	toPush = sinf(atof(input.c_str()));
-        	ontop = true;
+        	pushResult = true;
         	break;
         case Button::COS:
         	toPush = cosf(atof(input.c_str()));
-        	ontop = true;
+        	pushResult = true;
         	break;
         case Button::TAN:
         	a = atof(input.c_str());
@@ -130,23 +131,23 @@ string Stack::operation(Button::b_event operation, string input) {
         		cerr << "[ERROR] Can't tan that number!" << endl;
 			} else {
 				toPush = tanf(pop());
-        		ontop = true;
+        		pushResult = true;
 			}
         	break;
         case Button::PLUSMINUS:
         	toPush = atof(input.c_str())*-1;
-        	ontop = true;
+        	pushResult = true;
         	break;
         case Button::RECIPROCAL:
         	toPush = 1/atof(input.c_str());
-        	ontop = true;
+        	pushResult = true;
         	break;
         default:
             string out = "Invalid operation!";
             throw invalid_argument(out);
     }
     
-    if (ontop) {
+    if (pushResult) {
         //convert int to string
         stringstream ss;
         ss << toPush;

@@ -5,6 +5,7 @@
 #ifndef RPN_STACK_H
 #define RPN_STACK_H
 
+#include <iostream>
 #include "Button.h"
 
 class Stack {
@@ -18,7 +19,7 @@ class Stack {
         float pop();
         string operation(Button::b_event operation, string input);
         void print();
-        //~Stack();
+        ~Stack() { cout << "Unloading stack." << endl;};
 };
 
 
