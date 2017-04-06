@@ -3,7 +3,6 @@
 //
 
 #include "Numpad.h"
-#include "Stack.h"
 #include <iostream>
 #include <sstream>
 
@@ -16,8 +15,6 @@ Numpad::Numpad(int x1_in, int y1_in, int width, int height, ALLEGRO_COLOR color_
     h = height;
 
     color = color_in;
-    pressing = false;
-    hovering = false;
     margin = 2;
     number = num;
 
@@ -27,7 +24,8 @@ Numpad::Numpad(int x1_in, int y1_in, int width, int height, ALLEGRO_COLOR color_
     text = ss.str();
 
     cout << "Initialized numpad " << number << endl;
-    font = al_load_font("font.ttf",30,0);//"C:\\Users\\Devon Mack\\CLionProjects\\Rpn\\font.ttf", 50, 0);
+    //DEVCPPfont = al_load_font("font.ttf",30,0);
+    font = al_load_font("C:\\Users\\Devon Mack\\CLionProjects\\Rpn\\font.ttf", 50, 0);
     if (!font) {
         cout << "FAILED TO LOAD FONT" << endl;
     }

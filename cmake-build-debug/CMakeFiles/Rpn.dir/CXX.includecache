@@ -11,8 +11,6 @@ iostream
 -
 Button.h
 C:/Users/Devon Mack/CLionProjects/Rpn/Button.h
-Stack.h
-C:/Users/Devon Mack/CLionProjects/Rpn/Stack.h
 
 C:/Users/Devon Mack/CLionProjects/Rpn/Button.h
 string
@@ -27,8 +25,6 @@ allegro5/allegro_font.h
 C:/Users/Devon Mack/CLionProjects/Rpn/Numpad.cpp
 Numpad.h
 C:/Users/Devon Mack/CLionProjects/Rpn/Numpad.h
-Stack.h
-C:/Users/Devon Mack/CLionProjects/Rpn/Stack.h
 iostream
 -
 sstream
@@ -43,8 +39,6 @@ C:/Users/Devon Mack/CLionProjects/Rpn/Stack.h
 C:/Users/Devon Mack/CLionProjects/Rpn/Stack.cpp
 Stack.h
 C:/Users/Devon Mack/CLionProjects/Rpn/Stack.h
-Button.h
-C:/Users/Devon Mack/CLionProjects/Rpn/Button.h
 iostream
 -
 cmath

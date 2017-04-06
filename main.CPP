@@ -1,23 +1,29 @@
 /**********************************************************************\
 * Program name      : RPN Calculator
-        *
-        * Author            : Devon Mack
-        *
-        * Date created      : 4/4/2017
+*       |
+*       | Author            : Devon Mack
+*       |
+*       | Date created      : 4/4/2017
 *
 * Purpose           : RPN Calculator with Allegro 5
+*                     github.com/
+*
+* Known Issues      : 1. Errors are all shown in console
+*                     2. Display the pop() warning a lot
+*                     3. The X is really ugly with this font
 *
 \**********************************************************************/
 
-//dev cpp #include "stack.cpp"
-//dev cpp #include "button.cpp"
+/* Need if not a project */
+ #include "Stack.cpp"
+ #include "Numpad.cpp"
+ #include "Button.cpp"
+/*                       */
 
 #include "Button.h"
-//DEVCPP#include "Button.cpp"
 #include "Stack.h"
-//DEVCPP#include "Stack.cpp"
 #include "Numpad.h"
-//DEVCPP#include "Numpad.cpp"
+
 #include <iostream>
 #include <stdio.h>
 #include <allegro5/allegro.h>
@@ -27,34 +33,31 @@
 #include <wtypes.h>
 #include <sstream>
 
-#define GREY al_map_rgb(150, 150, 150)
 #define BLUE al_map_rgb(158, 207, 255)
 #define YELLOW al_map_rgb(255,255,158)
-#define BLACK al_map_rgb(0,0,0)
 #define GREEN al_map_rgb(207,255,158)
 #define WHITE al_map_rgb(255, 255, 255)
 #define RED al_map_rgb(255, 158, 158)
 #define ORANGE al_map_rgb(255,176,97)
 
 bool initializeAllegro(ALLEGRO_DISPLAY *&display);
-void draw_calculator();
 
 // Constants
-int size = 90;
-int margin = 2;
-int ScreenWidth = 5*size;
-int ScreenHeight = 10*size;
+const int size = 90; // The size of each 'square' on the calculator, button sizing is based off this
+const int margin = 2; //
+const int ScreenWidth = 5*size;
+const int ScreenHeight = 10*size;
+const int NumButtons = 17;
 
 ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 
 using namespace std;
 
 int main(int argc, char **argv) {
-    const float EPSILON = 0.0000001;
     ALLEGRO_DISPLAY *display = NULL;
-    float a_ratio = float(ScreenWidth)/ScreenHeight;
 
     Stack stack;
+
     if (!initializeAllegro(display)) {
         return false;
     }
@@ -70,7 +73,8 @@ int main(int argc, char **argv) {
     counter++;
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-            numberPad[counter] = new Numpad(j*size+margin,i*size+size+locationy+margin,size-margin,size-margin,GREEN, counter);
+            numberPad[counter] = new Numpad(j*size+margin,i*size+size+locationy+margin,
+                                            size-margin,size-margin,GREEN, counter);
             counter++;
         }
     }
@@ -78,36 +82,53 @@ int main(int argc, char **argv) {
     locationy = size*5;
     Button *buttons[17];
 
-    // TOP LINE
-    buttons[0] = new Button(margin, margin+locationy, size-margin, size-margin, RED, "C", Button::CLEAR);
-    buttons[1] = new Button(margin+size, margin+locationy, size-margin, size-margin, RED, "AC", Button::ALLCLEAR);
-    buttons[2] = new Button(margin+size*2, margin+locationy, size-margin, size-margin, RED, "DEL", Button::DEL);
-    buttons[3] = new Button(margin+size*3, margin+locationy, size-margin, size-margin, BLUE, "POP", Button::POP);
-    buttons[4] = new Button(margin+size*4, margin+locationy, size-margin, size-margin, BLUE, "POW", Button::EXPONENT);
+    // SECOND LINE C AC POP POW
+    buttons[0] = new Button(margin, margin+locationy, size-margin, size-margin, RED, "C",
+                            Button::CLEAR);
+    buttons[1] = new Button(margin+size, margin+locationy, size-margin, size-margin, RED, "AC",
+                            Button::ALLCLEAR);
+    buttons[2] = new Button(margin+size*2, margin+locationy, size-margin, size-margin, RED, "DEL",
+                            Button::DEL);
+    buttons[3] = new Button(margin+size*3, margin+locationy, size-margin, size-margin, BLUE, "POP",
+                            Button::POP);
+    buttons[4] = new Button(margin+size*4, margin+locationy, size-margin, size-margin, BLUE, "POW",
+                            Button::EXPONENT);
 
     // Basic math
-    buttons[5] = new Button(margin+size*3, margin+size*1+locationy, size-margin, size-margin, BLUE, "+", Button::ADD);
-    buttons[6] = new Button(margin+size*4, margin+size*1+locationy, size-margin, size-margin, BLUE, "-", Button::SUBTRACT);
-    buttons[7] = new Button(margin+size*3, margin+size*2+locationy, size-margin, size-margin, BLUE, "x", Button::MULTIPLY);
-    buttons[8] = new Button(margin+size*4, margin+size*2+locationy, size-margin, size-margin, BLUE, "/", Button::DIVIDE);
+    buttons[5] = new Button(margin+size*3, margin+size*1+locationy, size-margin, size-margin, BLUE, "+",
+                            Button::ADD);
+    buttons[6] = new Button(margin+size*4, margin+size*1+locationy, size-margin, size-margin, BLUE, "-",
+                            Button::SUBTRACT);
+    buttons[7] = new Button(margin+size*3, margin+size*2+locationy, size-margin, size-margin, BLUE, "x",
+                            Button::MULTIPLY);
+    buttons[8] = new Button(margin+size*4, margin+size*2+locationy, size-margin, size-margin, BLUE, "/",
+                            Button::DIVIDE);
 
     // BELOW NUMPAD
-    buttons[9] = new Button(margin+size*3, margin+size*4+locationy, size-margin, size-margin, BLUE, ".", Button::DECIMAL);
-    buttons[10] = new Button(margin+size*4,margin+size*4+locationy , size-margin, size-margin, BLUE, "+/-", Button::PLUSMINUS);
+    buttons[9] = new Button(margin+size*3, margin+size*4+locationy, size-margin, size-margin, BLUE, ".",
+                            Button::DECIMAL);
+    buttons[10] = new Button(margin+size*4,margin+size*4+locationy , size-margin, size-margin, BLUE, "+/-",
+                             Button::PLUSMINUS);
 
-    //2nd from bottom
-    buttons[11] = new Button(margin+size*3, margin+size*3+locationy, size-margin, size-margin, BLUE, "SQRT", Button::SQRT);
-    buttons[12] = new Button(margin+size*4, margin+size*3+locationy, size-margin, size-margin, BLUE, "1/x", Button::RECIPROCAL);
+    //2nd from
+    buttons[11] = new Button(margin+size*3, margin+size*3+locationy, size-margin, size-margin, BLUE, "SQRT",
+                             Button::SQRT);
+    buttons[12] = new Button(margin+size*4, margin+size*3+locationy, size-margin, size-margin, BLUE, "1/x",
+                             Button::RECIPROCAL);
 
     // ENTER
-    buttons[13] = new Button(margin+size, margin+size*4+locationy, size*2-margin, size-margin, RED, "ENTER", Button::ENTER);
+    buttons[13] = new Button(margin+size, margin+size*4+locationy, size*2-margin, size-margin, RED, "ENTER",
+                             Button::ENTER);
 	
-	//TRIG
-	buttons[14] = new Button(margin, margin+locationy-size, ScreenWidth/3-margin, size-margin, YELLOW, "SIN", Button::SIN);
-	buttons[15] = new Button(margin+ScreenWidth/3, margin+locationy-size, ScreenWidth/3-margin, size-margin, YELLOW, "COS", Button::COS);
-	buttons[16] = new Button(margin+2*ScreenWidth/3, margin+locationy-size, ScreenWidth/3-margin, size-margin, YELLOW, "TAN", Button::TAN);
+	//TRIG functions
+	buttons[14] = new Button(margin, margin+locationy-size, ScreenWidth/3-margin, size-margin, YELLOW, "SIN",
+                             Button::SIN);
+	buttons[15] = new Button(margin+ScreenWidth/3, margin+locationy-size, ScreenWidth/3-margin, size-margin, YELLOW, "COS",
+                             Button::COS);
+	buttons[16] = new Button(margin+2*ScreenWidth/3, margin+locationy-size, ScreenWidth/3-margin, size-margin, YELLOW, "TAN",
+                             Button::TAN);
 	
-    //Initialize the displays
+    // Initialize the displays
     Numpad *calc_display[4];
 
     calc_display[0] = new Numpad(margin*3, margin*2, size*5-margin*6, size-margin*3, WHITE, 0);
@@ -117,7 +138,7 @@ int main(int argc, char **argv) {
 
     // --- Draw the calculator ---
     // Draw the buttons
-    for (int i = 0; i < 17; i++) {
+    for (int i = 0; i < NumButtons; i++) {
         cout << "Drawing button " << i << endl;
         buttons[i]->draw();
     }
@@ -140,7 +161,6 @@ int main(int argc, char **argv) {
     // --- Main Loop ---
     ALLEGRO_EVENT ev;
     int numPress;
-    float topStack;
     bool updateDisplay = false;
     float popThree[3];
     string input = "0";
@@ -148,8 +168,6 @@ int main(int argc, char **argv) {
 
 
     while(true) {
-        ALLEGRO_EVENT ev;
-
         al_wait_for_event(event_queue, &ev); // Wait for event
 
             // If [x] is clicked then close game
@@ -170,22 +188,29 @@ int main(int argc, char **argv) {
                 // Check numpad
                 for (int i = 0; i < 10; i++) {
                     if (numberPad[i]->checkMouse(ev.mouse.x,ev.mouse.y)) {
+                        // If the user pressed a numpad button, add it to the string.
                         numPress = numberPad[i]->getNum();
-                        //convert to string
+
+                        // Convert the number pressed to a string
                         ss.str("");
                         ss << numPress;
+
+                        // Don't let the display show nothing
                         if (input == "0") {
                             input = ss.str();
                         } else {
+                            // add the number to the display/string
                             input += ss.str();
                         }
 
+                        // Update the display
                         updateDisplay = true;
                     }
                 }
                 // Check buttons
-                for (int i = 0; i < 17; i++) {
+                for (int i = 0; i < NumButtons; i++) {
                     if (buttons[i]->checkMouse(ev.mouse.x,ev.mouse.y)) {
+                        // Run the event of the button,
                         input = stack.operation(buttons[i]->getEvent(), input);
                         updateDisplay = true;
                     }
@@ -193,16 +218,25 @@ int main(int argc, char **argv) {
             }
         }
         if (updateDisplay) {
+            // Update the display to display the top 4 numbers of the stack
+
+            //The top display is a special case since the user can modify it
             calc_display[0]->setText(input);
             calc_display[0]->draw();
+
+            // pop the top 3 to find what they are
             for (int i = 0; i < 3; i++) {
                 popThree[i] = stack.pop();
             }
+
+            // push them back
             for (int i = 2; i >= 0; i--) {
                 calc_display[i+1]->setNumber(popThree[i]);
                 calc_display[i+1]->draw();
                 stack.push(popThree[i]);
             }
+
+            // finished updating the display
             updateDisplay = false;
             al_flip_display();
         }
@@ -224,13 +258,13 @@ bool initializeAllegro(ALLEGRO_DISPLAY *&display) {
     }
     cout << "Initialized Primitives" << endl;
 
-    if (!al_init_font_addon())  {// initialize the font addon
+    if (!al_init_font_addon())  {
         cerr << "failed to initialize primitives! "  << endl;
         return false;
     }
     cout << "Initialized font addon" << endl;
 
-    if (!al_init_ttf_addon())  {// initialize the ttf (True Type Font) addon
+    if (!al_init_ttf_addon())  {
         cerr << "failed to initialize primitives! "  << endl;
         return false;
     }
@@ -259,6 +293,6 @@ bool initializeAllegro(ALLEGRO_DISPLAY *&display) {
     al_register_event_source(event_queue, al_get_mouse_event_source()); //mouse clicks
     al_register_event_source(event_queue, al_get_keyboard_event_source()); //keyboard presses
     al_register_event_source(event_queue, al_get_display_event_source(display)); //click x
-    cout << "Successfully Initialized Allegro, part 5" << endl;
+    cout << "Successfully Initialized All of Allegro" << endl;
     return true;
 }

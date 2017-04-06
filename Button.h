@@ -21,7 +21,6 @@ class Button {
         Button(int x1_in, int y1_in, int width, int height, ALLEGRO_COLOR color_in, string text_in, b_event event_in);
         void draw();
         bool checkMouse(int x, int y);
-        string getText();
         b_event getEvent();
         void setText(string text_in);
         //~Stack();
@@ -33,8 +32,6 @@ class Button {
         int margin;
         ALLEGRO_COLOR color;
         string text;
-        bool hovering;
-        bool pressing;
         ALLEGRO_FONT *font;
         b_event event;
 

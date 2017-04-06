@@ -3,7 +3,6 @@
 
 CMakeFiles/Rpn.dir/Button.cpp.obj: ../Button.cpp
 CMakeFiles/Rpn.dir/Button.cpp.obj: ../Button.h
-CMakeFiles/Rpn.dir/Button.cpp.obj: ../Stack.h
 CMakeFiles/Rpn.dir/Button.cpp.obj: C:/allegro/include/allegro5/alcompat.h
 CMakeFiles/Rpn.dir/Button.cpp.obj: C:/allegro/include/allegro5/allegro.h
 CMakeFiles/Rpn.dir/Button.cpp.obj: C:/allegro/include/allegro5/allegro_font.h

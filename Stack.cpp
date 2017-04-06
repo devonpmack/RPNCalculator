@@ -3,7 +3,6 @@
 //
 
 #include "Stack.h"
-#include "Button.h"
 #include <iostream>
 #include <cmath>
 #include <sstream>
@@ -45,34 +44,30 @@ string Stack::operation(Button::b_event operation, string input) {
     float a;
     float b;
     bool ontop = false;
-    float toPush;
+    float toPush = 0;
     cout << "EVENT: " << operation << endl;
     switch(operation) {
         case Button::ADD:
-            push(atof(input.c_str()));
-            a = pop();
+            a = atof(input.c_str());
             b = pop();
             toPush = a+b;
 
             ontop = true;
             break;
         case Button::SUBTRACT:
-            push(atof(input.c_str()));
-            a = pop();
+            a = atof(input.c_str());
             b = pop();
             toPush = b-a;
             ontop = true;
             break;
         case Button::MULTIPLY:
-            push(atof(input.c_str()));
-            a = pop();
+            a = atof(input.c_str());
             b = pop();
             toPush = a*b;
             ontop = true;
             break;
         case Button::DIVIDE:
-            push(atof(input.c_str()));
-            a = pop();
+            a = atof(input.c_str());
             b = pop();
             if (abs(a) < EPSILON) {
             	cerr << "[ERROR] Divide by zero!" << endl;
@@ -82,8 +77,7 @@ string Stack::operation(Button::b_event operation, string input) {
             }
             break;
         case Button::EXPONENT:
-            push(atof(input.c_str()));
-            a = pop();
+            a = atof(input.c_str());
             b = pop();
             toPush = pow(a,b);
             ontop = true;
@@ -114,8 +108,7 @@ string Stack::operation(Button::b_event operation, string input) {
             input += ".";
             break;
         case Button::SQRT:
-        	push(atof(input.c_str()));
-        	a = pop();
+            a = atof(input.c_str());
         	if (a < 0) {
         		cerr << "[ERROR] Can't square root a negative number!" << endl;
 			} else {
@@ -124,18 +117,15 @@ string Stack::operation(Button::b_event operation, string input) {
 			}
         	break;
         case Button::SIN:
-        	push(atof(input.c_str()));
-        	toPush = sinf(pop());
+        	toPush = sinf(atof(input.c_str()));
         	ontop = true;
         	break;
         case Button::COS:
-        	push(atof(input.c_str()));
-        	toPush = cosf(pop());
+        	toPush = cosf(atof(input.c_str()));
         	ontop = true;
         	break;
         case Button::TAN:
-        	push(atof(input.c_str()));
-        	a = pop();
+        	a = atof(input.c_str());
         	if (abs(270-a) < EPSILON || abs(90-a) < EPSILON) {
         		cerr << "[ERROR] Can't tan that number!" << endl;
 			} else {
@@ -144,13 +134,11 @@ string Stack::operation(Button::b_event operation, string input) {
 			}
         	break;
         case Button::PLUSMINUS:
-        	push(atof(input.c_str()));
-        	toPush = pop()*-1;
+        	toPush = atof(input.c_str())*-1;
         	ontop = true;
         	break;
         case Button::RECIPROCAL:
-        	push(atof(input.c_str()));
-        	toPush = 1/pop();
+        	toPush = 1/atof(input.c_str());
         	ontop = true;
         	break;
         default:
