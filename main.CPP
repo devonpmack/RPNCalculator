@@ -13,8 +13,11 @@
 //dev cpp #include "button.cpp"
 
 #include "Button.h"
+//DEVCPP#include "Button.cpp"
 #include "Stack.h"
+//DEVCPP#include "Stack.cpp"
 #include "Numpad.h"
+//DEVCPP#include "Numpad.cpp"
 #include <iostream>
 #include <stdio.h>
 #include <allegro5/allegro.h>
@@ -40,7 +43,7 @@ void draw_calculator();
 int size = 90;
 int margin = 2;
 int ScreenWidth = 5*size;
-int ScreenHeight = 9*size;
+int ScreenHeight = 10*size;
 
 ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 
@@ -48,7 +51,6 @@ using namespace std;
 
 int main(int argc, char **argv) {
     const float EPSILON = 0.0000001;
-    cout << "test";
     ALLEGRO_DISPLAY *display = NULL;
     float a_ratio = float(ScreenWidth)/ScreenHeight;
 
@@ -64,18 +66,17 @@ int main(int argc, char **argv) {
     int locationy = size*5;
 
     //Initialize the numpad buttons
-    numberPad[0] = new Numpad(margin,size*3+margin+locationy,size-margin,size-margin,GREEN, 0);
+    numberPad[0] = new Numpad(margin,size*4+margin+locationy,size-margin,size-margin,GREEN, 0);
     counter++;
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-            cout << counter << endl;
-            numberPad[counter] = new Numpad(j*size+margin,i*size+locationy+margin,size-margin,size-margin,GREEN, counter);
+            numberPad[counter] = new Numpad(j*size+margin,i*size+size+locationy+margin,size-margin,size-margin,GREEN, counter);
             counter++;
         }
     }
 
-    locationy = size*4;
-    Button *buttons[14];
+    locationy = size*5;
+    Button *buttons[17];
 
     // TOP LINE
     buttons[0] = new Button(margin, margin+locationy, size-margin, size-margin, RED, "C", Button::CLEAR);
@@ -84,7 +85,7 @@ int main(int argc, char **argv) {
     buttons[3] = new Button(margin+size*3, margin+locationy, size-margin, size-margin, BLUE, "POP", Button::POP);
     buttons[4] = new Button(margin+size*4, margin+locationy, size-margin, size-margin, BLUE, "POW", Button::EXPONENT);
 
-    // BOX
+    // Basic math
     buttons[5] = new Button(margin+size*3, margin+size*1+locationy, size-margin, size-margin, BLUE, "+", Button::ADD);
     buttons[6] = new Button(margin+size*4, margin+size*1+locationy, size-margin, size-margin, BLUE, "-", Button::SUBTRACT);
     buttons[7] = new Button(margin+size*3, margin+size*2+locationy, size-margin, size-margin, BLUE, "x", Button::MULTIPLY);
@@ -100,7 +101,12 @@ int main(int argc, char **argv) {
 
     // ENTER
     buttons[13] = new Button(margin+size, margin+size*4+locationy, size*2-margin, size-margin, RED, "ENTER", Button::ENTER);
-
+	
+	//TRIG
+	buttons[14] = new Button(margin, margin+locationy-size, ScreenWidth/3-margin, size-margin, YELLOW, "SIN", Button::SIN);
+	buttons[15] = new Button(margin+ScreenWidth/3, margin+locationy-size, ScreenWidth/3-margin, size-margin, YELLOW, "COS", Button::COS);
+	buttons[16] = new Button(margin+2*ScreenWidth/3, margin+locationy-size, ScreenWidth/3-margin, size-margin, YELLOW, "TAN", Button::TAN);
+	
     //Initialize the displays
     Numpad *calc_display[4];
 
@@ -111,7 +117,7 @@ int main(int argc, char **argv) {
 
     // --- Draw the calculator ---
     // Draw the buttons
-    for (int i = 0; i < 14; i++) {
+    for (int i = 0; i < 17; i++) {
         cout << "Drawing button " << i << endl;
         buttons[i]->draw();
     }
@@ -165,10 +171,6 @@ int main(int argc, char **argv) {
                 for (int i = 0; i < 10; i++) {
                     if (numberPad[i]->checkMouse(ev.mouse.x,ev.mouse.y)) {
                         numPress = numberPad[i]->getNum();
-                        /*topStack = stack.pop();
-                        stack.push(topStack*10 + numPress);
-                        stack.print();*/
-
                         //convert to string
                         ss.str("");
                         ss << numPress;
@@ -178,20 +180,13 @@ int main(int argc, char **argv) {
                             input += ss.str();
                         }
 
-                        cout << input;
-
                         updateDisplay = true;
                     }
                 }
                 // Check buttons
-                for (int i = 0; i < 14; i++) {
+                for (int i = 0; i < 17; i++) {
                     if (buttons[i]->checkMouse(ev.mouse.x,ev.mouse.y)) {
-                        try {
-                            input = stack.operation(buttons[i]->getEvent(), input);
-                        }
-                        catch (const invalid_argument &e) {
-                            cerr << "[ERROR] "<< e.what() << endl;
-                        }
+                        input = stack.operation(buttons[i]->getEvent(), input);
                         updateDisplay = true;
                     }
                 }
@@ -206,12 +201,7 @@ int main(int argc, char **argv) {
             for (int i = 2; i >= 0; i--) {
                 calc_display[i+1]->setNumber(popThree[i]);
                 calc_display[i+1]->draw();
-                try {
-                    stack.push(popThree[i]);
-                }
-                catch (const invalid_argument &e) {
-                    cerr << "[ERROR] "<< e.what() << endl;
-                }
+                stack.push(popThree[i]);
             }
             updateDisplay = false;
             al_flip_display();
@@ -226,7 +216,7 @@ bool initializeAllegro(ALLEGRO_DISPLAY *&display) {
         cerr << "failed to initialize allegro! "  << endl;
         return false;
     }
-    cout << "Successfully Initialized Allegro, part 1" << endl;
+    cout << "Successfully Initialized Allegro" << endl;
 
     if (!al_init_primitives_addon())  {
         cerr << "failed to initialize primitives! "  << endl;
@@ -250,17 +240,17 @@ bool initializeAllegro(ALLEGRO_DISPLAY *&display) {
         cerr << "failed to initialize the keyboard! "  << endl;
         return false;
     }
-    cout << "Successfully Initialized Allegro, part 2" << endl;
+    cout << "Successfully Initialized keyboard" << endl;
 
     if(!al_install_mouse()) {
         cerr << "failed to initialize the mouse!" << endl;
         return -1;
     }
-    cout << "Successfully Initialized Allegro, part 3" << endl;
+    cout << "Successfully Initialized mouse" << endl;
 
     al_set_new_display_flags(ALLEGRO_WINDOWED); //| ALLEGRO_RESIZABLE);
     display = al_create_display(ScreenWidth, ScreenHeight);
-    cout << "Successfully Initialized Allegro, part 4" << endl;
+    cout << "Successfully Initialized display" << endl;
 
     al_clear_to_color(WHITE);
 

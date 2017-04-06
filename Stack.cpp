@@ -11,7 +11,7 @@
 using namespace std;
 
 Stack::Stack() {
-    EPSILON = 0.0000001;
+    EPSILON = 0.000000001;
     top = -1;
     for (int i = 0; i < 40; i++) {
         data[i] = 0;
@@ -36,7 +36,7 @@ void Stack::push(float n) {
     if (top < 79) {
         data[++top] = n;
     } else {
-        throw invalid_argument("Not pushing, stack too big!");
+        cerr << "[Warning] Not pushing, stack too big." << endl;
     }
 
 }
@@ -44,9 +44,8 @@ void Stack::push(float n) {
 string Stack::operation(Button::b_event operation, string input) {
     float a;
     float b;
-    bool ontop;
+    bool ontop = false;
     float toPush;
-    print();
     cout << "EVENT: " << operation << endl;
     switch(operation) {
         case Button::ADD:
@@ -68,7 +67,7 @@ string Stack::operation(Button::b_event operation, string input) {
             push(atof(input.c_str()));
             a = pop();
             b = pop();
-            push(a*b);
+            toPush = a*b;
             ontop = true;
             break;
         case Button::DIVIDE:
@@ -76,17 +75,17 @@ string Stack::operation(Button::b_event operation, string input) {
             a = pop();
             b = pop();
             if (abs(a) < EPSILON) {
-                throw invalid_argument("Divide by zero.");
+            	cerr << "[ERROR] Divide by zero!" << endl;
             } else {
-                push(b/a);
+                toPush = b/a;
                 ontop = true;
-                break;
             }
+            break;
         case Button::EXPONENT:
             push(atof(input.c_str()));
             a = pop();
             b = pop();
-            push(pow(a,b));
+            toPush = pow(a,b);
             ontop = true;
             break;
         case Button::ENTER:
@@ -96,6 +95,7 @@ string Stack::operation(Button::b_event operation, string input) {
             break;
         case Button::CLEAR:
             input = "0";
+            break;
         case Button::POP:
             toPush = pop();
             ontop = true;
@@ -113,10 +113,51 @@ string Stack::operation(Button::b_event operation, string input) {
         case Button::DECIMAL:
             input += ".";
             break;
+        case Button::SQRT:
+        	push(atof(input.c_str()));
+        	a = pop();
+        	if (a < 0) {
+        		cerr << "[ERROR] Can't square root a negative number!" << endl;
+			} else {
+				toPush = sqrt(a);
+        		ontop = true;
+			}
+        	break;
+        case Button::SIN:
+        	push(atof(input.c_str()));
+        	toPush = sinf(pop());
+        	ontop = true;
+        	break;
+        case Button::COS:
+        	push(atof(input.c_str()));
+        	toPush = cosf(pop());
+        	ontop = true;
+        	break;
+        case Button::TAN:
+        	push(atof(input.c_str()));
+        	a = pop();
+        	if (abs(270-a) < EPSILON || abs(90-a) < EPSILON) {
+        		cerr << "[ERROR] Can't tan that number!" << endl;
+			} else {
+				toPush = tanf(pop());
+        		ontop = true;
+			}
+        	break;
+        case Button::PLUSMINUS:
+        	push(atof(input.c_str()));
+        	toPush = pop()*-1;
+        	ontop = true;
+        	break;
+        case Button::RECIPROCAL:
+        	push(atof(input.c_str()));
+        	toPush = 1/pop();
+        	ontop = true;
+        	break;
         default:
             string out = "Invalid operation!";
             throw invalid_argument(out);
     }
+    
     if (ontop) {
         //convert int to string
         stringstream ss;
@@ -140,11 +181,3 @@ void Stack::print() {
 	cout << "destroy";
 }*/
 
-float Stack::sTop() {
-    if (top >= 0) {
-        return data[top];
-    } else {
-        return 0;
-    }
-
-}

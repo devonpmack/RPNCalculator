@@ -18,7 +18,6 @@ class Stack {
         float pop();
         string operation(Button::b_event operation, string input);
         void print();
-        float sTop();
         //~Stack();
 };
 
