@@ -1,0 +1,1 @@
+ -LC:/allegro/lib C:/allegro/lib/liballegro_main-debug.dll.a C:/allegro/lib/liballegro_monolith-debug.dll.a C:/allegro/lib/liballegro.dll.a -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 

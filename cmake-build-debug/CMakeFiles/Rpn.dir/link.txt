@@ -1,0 +1,3 @@
+"C:\Program Files (x86)\JetBrains\CLion 2016.3.3\bin\cmake\bin\cmake.exe" -E remove -f CMakeFiles\Rpn.dir/objects.a
+C:\MinGW\bin\ar.exe cr CMakeFiles\Rpn.dir/objects.a @CMakeFiles\Rpn.dir\objects1.rsp
+C:\MinGW\bin\g++.exe  -g   -Wl,--whole-archive CMakeFiles\Rpn.dir/objects.a -Wl,--no-whole-archive  -o Rpn.exe -Wl,--out-implib,libRpn.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Rpn.dir\linklibs.rsp
